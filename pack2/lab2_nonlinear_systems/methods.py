@@ -4,7 +4,6 @@ H = 1e-6
 
 
 def jacobian(system, x):
-    # J[i][j] = dF_i / dx_j, численно центральной разностью
     n = len(x)
     jac = [[0.0] * n for _ in range(n)]
     for j in range(n):
@@ -18,7 +17,6 @@ def jacobian(system, x):
 
 
 def newton(system, x0, eps, max_iter=100):
-    # x(k+1) = x(k) + dx,  где J(x(k)) * dx = -F(x(k))
     x = list(x0)
     history = [(0, x[:], None)]
     for k in range(1, max_iter + 1):
@@ -33,16 +31,15 @@ def newton(system, x0, eps, max_iter=100):
 
 
 def simple_iteration(system, x0, eps, max_iter=10000):
-    # x = phi(x),  phi(x) = x - L * F(x),  L = J(x0)^(-1)
+    # phi(x) = x - L*F(x), L = J(x0)^-1
     n = len(x0)
-    lam = inverse(jacobian(system, list(x0)))
+    lam = inverse(jacobian(system, x0))
 
     def phi(x):
         step = matvec(lam, system(x))
         return [x[i] - step[i] for i in range(n)]
 
     def phi_derivative_norm(x):
-        # phi'(x) = E - L * J(x)
         lj = matmul(lam, jacobian(system, x))
         return matrix_norm([[(1.0 if i == j else 0.0) - lj[i][j] for j in range(n)] for i in range(n)])
 
@@ -56,12 +53,8 @@ def simple_iteration(system, x0, eps, max_iter=10000):
         q = max(q, phi_derivative_norm(x))
         history.append((k, x[:], diff))
 
-        if q < 1:
-            # ||x* - x(k)|| <= q / (1 - q) * ||x(k) - x(k-1)||
-            stop = diff <= min(1.0, (1 - q) / q if q > 0 else 1.0) * eps
-        else:
-            stop = diff <= eps
-        if stop:
+        factor = (1 - q) / q if 0 < q < 1 else 1.0
+        if diff <= min(factor, 1.0) * eps:
             return x, history, q
         if diff > 1e10:
             break

@@ -62,11 +62,10 @@ def process(task):
         print("=" * 70)
 
         if left == right:
-            print(f"  x = {left} — точный корень (f = 0 в узле таблицы)")
+            print(f"  x = {left} - точный корень (f = 0 в узле таблицы)")
             roots.append(left)
             continue
 
-        # эталон: тот же Ньютон, но с машинной точностью
         x_ref, _ = newton(f, left, right, 1e-14)
 
         section("Метод простой итерации")

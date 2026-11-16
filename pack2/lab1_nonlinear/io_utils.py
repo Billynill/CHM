@@ -25,13 +25,13 @@ def read_task(path):
     try:
         func = parse_function(values["f"])
     except Exception as e:
-        raise ValueError(f"не удалось разобрать f(x): {e}") from None
+        raise ValueError(f"не удалось разобрать f(x): {e}")
 
     try:
         a, b, eps = float(values["a"]), float(values["b"]), float(values["eps"])
         step = float(values["step"]) if "step" in values else (b - a) / 50
     except ValueError:
-        raise ValueError("a, b, eps и step должны быть числами") from None
+        raise ValueError("a, b, eps и step должны быть числами")
 
     if a >= b:
         raise ValueError("должно быть a < b")

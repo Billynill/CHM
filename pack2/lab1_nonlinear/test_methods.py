@@ -16,7 +16,7 @@ class MethodsTest(unittest.TestCase):
     def test_localize(self):
         f = parse_function("sin(x)")
         segments = localize_roots(tabulate(f, 1, 10, 0.5))
-        self.assertEqual(len(segments), 3)  # pi, 2pi, 3pi
+        self.assertEqual(len(segments), 3)
 
     def test_parser(self):
         f = parse_function("2^x - x^2 - 0.5")

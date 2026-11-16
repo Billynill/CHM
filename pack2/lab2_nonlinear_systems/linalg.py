@@ -1,5 +1,4 @@
 def gauss_solve(a, b):
-    # метод Гаусса с выбором главного элемента
     n = len(a)
     m = [a[i][:] + [b[i]] for i in range(n)]
 

@@ -30,7 +30,7 @@ def read_task(path):
                 else:
                     params[key] = float(value)
             except ValueError:
-                raise ValueError(f"строка {line_no}: не удалось прочитать числа: {raw.strip()!r}") from None
+                raise ValueError(f"строка {line_no}: не удалось прочитать числа: {raw.strip()!r}")
 
     if not equations:
         raise ValueError("нет уравнений (строки f1 = ..., f2 = ...)")
@@ -49,6 +49,6 @@ def read_task(path):
         system = make_system(texts, params)
         system(x0)
     except Exception as e:
-        raise ValueError(f"не удалось вычислить систему в x0: {e}") from None
+        raise ValueError(f"не удалось вычислить систему в x0: {e}")
 
     return {"system": system, "texts": texts, "params": params, "x0": x0, "eps": eps, "area": area}

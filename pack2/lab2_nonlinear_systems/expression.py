@@ -9,7 +9,6 @@ FUNCTIONS = {
 
 
 def parse_expression(text, allowed_names):
-    # строка из файла -> скомпилированное выражение; ^ разрешаем как степень
     code = compile(text.replace("^", "**"), "<expr>", "eval")
     for name in code.co_names:
         if name not in allowed_names and name not in FUNCTIONS:
@@ -18,7 +17,6 @@ def parse_expression(text, allowed_names):
 
 
 def make_system(texts, params):
-    # список строк f1..fn -> функция F(x), возвращающая вектор значений
     n = len(texts)
     var_names = [f"x{i + 1}" for i in range(n)]
     codes = [parse_expression(t, set(var_names) | set(params)) for t in texts]

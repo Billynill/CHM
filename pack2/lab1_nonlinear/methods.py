@@ -26,7 +26,6 @@ def tabulate(f, a, b, step):
 
 
 def localize_roots(points):
-    # отрезки, на концах которых f меняет знак
     segments = []
     for (x1, y1), (x2, y2) in zip(points, points[1:]):
         if y1 is None or y2 is None:
@@ -44,14 +43,14 @@ def derivative_bounds(f, a, b, samples=200):
 
 
 def simple_iteration(f, a, b, eps, max_iter=10000):
-    # x = phi(x),  phi(x) = x - f(x) / k
+    # phi(x) = x - f(x)/k
     d_min, d_max = derivative_bounds(f, a, b)
     if d_min * d_max <= 0:
         raise ValueError("f'(x) меняет знак на отрезке, phi построить нельзя")
 
     m, big_m = min(abs(d_min), abs(d_max)), max(abs(d_min), abs(d_max))
     k = big_m if d_max > 0 else -big_m
-    q = 1 - m / big_m  # max|phi'(x)| на отрезке
+    q = 1 - m / big_m
 
     def phi(x):
         return x - f(x) / k
@@ -69,7 +68,7 @@ def simple_iteration(f, a, b, eps, max_iter=10000):
 
 
 def newton_start(f, a, b):
-    # x0 выбираем там, где f(x0) * f''(x0) > 0
+    # f(x0)*f''(x0) > 0
     for x in (a, b):
         if f(x) * second_derivative(f, x) > 0:
             return x

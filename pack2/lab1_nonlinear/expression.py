@@ -9,7 +9,6 @@ ALLOWED = {
 
 
 def parse_function(text):
-    # строка из файла -> функция f(x); ^ разрешаем как степень
     source = text.replace("^", "**")
     code = compile(source, "<f(x)>", "eval")
     for name in code.co_names:
@@ -19,5 +18,5 @@ def parse_function(text):
     def f(x):
         return eval(code, {"__builtins__": {}}, {**ALLOWED, "x": x})
 
-    f(1.0)  # проверка, что формула вообще считается
+    f(1.0)
     return f

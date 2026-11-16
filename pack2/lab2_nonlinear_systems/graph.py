@@ -6,7 +6,6 @@ def safe_values(system, x, y):
 
 
 def text_map(system, area, cols=60, rows=24):
-    # отмечаем клетки, через которые проходит кривая f1 = 0 ('1'), f2 = 0 ('2') или обе ('X')
     x_min, x_max, y_min, y_max = area
     dx = (x_max - x_min) / cols
     dy = (y_max - y_min) / rows
